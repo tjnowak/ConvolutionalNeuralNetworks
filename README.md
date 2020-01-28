@@ -61,10 +61,7 @@ I first created and trained a basic CNN. I then tried to optimize my model by mo
 
 From my tests, I concluded that the model figuration shown below is best suited for leaf classification:  
 <p align="center">
-  <br>
   <img src="ModelFromScratch.JPG" alt="Model From Scratch">
-  <br>
-  Figure 1 - Speedup of parallel implementations of Strassen's algorithm compared to the serial implementation
 </p>
 
 ### Transfer Learning Model
