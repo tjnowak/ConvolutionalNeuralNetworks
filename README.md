@@ -63,6 +63,9 @@ From my tests, I concluded that the model figuration shown below is best suited 
 <p align="center">
   <img src="ModelFromScratch.JPG" alt="Model From Scratch">
 </p>
+<p align="center">
+  <img src="ModelFromScratch2.JPG" alt="Model From Scratch">
+</p>
 
 ### Transfer Learning Model
 
