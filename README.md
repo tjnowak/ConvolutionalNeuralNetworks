@@ -61,11 +61,10 @@ I first created and trained a basic CNN. I then tried to optimize my model by mo
 
 From my tests, I concluded that the model figuration shown below is best suited for leaf classification:  
 <p align="center">
-  <img src="ModelFromScratch.JPG" alt="Model From Scratch">
+  <img src="ModelFromScratch.jpg" alt="Model From Scratch">
 </p>
-<p align="center">
-  <img src="ModelFromScratch2.jpg" alt="Model From Scratch">
-</p>
+
+
 
 ### Transfer Learning Model
 
