@@ -1,14 +1,14 @@
 # Model Accuracy/Loss Results
-*.csv
-*.xlsx
-*.txt
+*/*.csv
+*/*.xlsx
+*/*.txt
 
 # Saved Model Weights
-*.h5
+*/*.h5
 
 # Scheduled Jobs
-*.pbs
+*/*.pbs
 
 # Failed Training Runs
-*.e*
-*.o
+*/*.e*
+*/*.o
