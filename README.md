@@ -65,7 +65,7 @@ I first created and trained a basic CNN. I then tried to optimize my model by mo
 * Number of Filters per Convolution - "Feature detectors" used to extract features in a convolution layer
 * Filter Dimensions - Size of the filters in the convolution layers
 * Filter Stride - Number of pixels that a filter moves by when sliding over an image during a convolution
-* Optimizers - Technique used for updating CNN weights
+* Optimizer - Technique used for updating CNN weights
 * Number of Pooling Layers - Layers used to make the CNN invariant to changes to an object's size and location in an image
 
 From my tests, I concluded that the model figuration shown below is best suited for leaf classification:  
