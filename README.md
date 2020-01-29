@@ -63,7 +63,7 @@ I first created and trained a basic CNN. I then tried to optimize my model by mo
 * Filter Dimensions - Size of the filters in the convolution layers
 * Filter Stride - Number of pixels that a filter moves by when sliding over an image during a convolution
 * Number of Pooling Layers - Layers used to make the CNN invariant to changes to an object's size and location in an image
-* Activation Function - Applied to layers to add non-linearity to the network (allow the CNN to classify non-linear data) 
+* [Activation Function](ModelFromScratch/ActivationFunction) - Applied to layers to add non-linearity to the network (allow the CNN to classify non-linear data) 
 * Batch Normalization - Used to normalize the output of fully-connected layers (prevent extremely high/low output values) 
 * Batch Size - Number of images used to update CNN weights during each step of a training run/epoch
 * Optimizer - Technique used for updating CNN weights
