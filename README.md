@@ -52,17 +52,19 @@ I first created and trained a basic CNN. I then tried to optimize my model by mo
 * Batch Normalization - Used to normalize the output of fully-connected layers (prevent extremely high/low output values) 
 * Batch Size - Number of images used to update CNN weights during each step of a training run/epoch
 * Input Image Dimensions - Dimensions Keras resizes images to before giving them to the CNN 
-* Number of Convolution Layers - Number of layers that extract features from an image, so it can be classified
-* Number of Filters per Convolution - Number of "feature detectors" used to extract features in a convolution layer
+* Number of Convolution Layers - Layers that extract features from an image, so it can be classified
+* Number of Filters per Convolution - "Feature detectors" used to extract features in a convolution layer
 * Filter Dimensions - Size of the filters in the convolution layers
-* Filter Stride - Number of pixels that a filter moves horizontally/vertically by when sliding over an image during a convolution
+* Filter Stride - Number of pixels that a filter moves by when sliding over an image during a convolution
 * Optimizers - Technique used for updating CNN weights
-* Number of Pooling Layers - Number of layers used to make the CNN invariant to changes to an object's size and location in an image
+* Number of Pooling Layers - Layers used to make the CNN invariant to changes to an object's size and location in an image
 
 From my tests, I concluded that the model figuration shown below is best suited for leaf classification:  
 <p align="center">
   <img src="ModelFromScratch.jpg" alt="Model From Scratch">
 </p>
+
+The final model takes a 302 x 302 pixel image in as input, extracts image features in the convolution layers (yellow), classifies the image using the convolved features in the dense/fully-connected layers (blue), and, for each of the 11 classes, outputs the probability that the leaf in the image belongs to that genus. The first 3 convolution layers in the model use 32 3 x 3 filters that have a horizontal/vertical stride of 1. The last 3 convolution layers use 64 3 x 3 filters with a stride of 1. The feature maps resulting from each convolution layer have Leaky ReLU applied to them and are reduced in size via Max Pooling. The first fully-connected layer has 64 nodes/neurons in it and uses the Leaky ReLU activation function. Dropout is applied to this layer as well to randomly block the output of 50% of the layer's nodes. Finally, the last fully-connected layer has 11 nodes in it (for 11 class probabilities) and uses the Softmax activation function to ensure that all output probabilities are between 0-1 and sum to 1. The model was trained with a batch size of 16 and the Adam optimizer over 50 epochs.
 
 
 
