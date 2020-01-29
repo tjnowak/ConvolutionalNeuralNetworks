@@ -55,18 +55,18 @@ I followed a [Keras blog post](https://blog.keras.io/building-powerful-image-cla
 ## Implementations
 Both CNNs were created using a tutorial in a [Keras blog post](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html) and were trained using GPUs on the Big Red II supercomputer. A [second article](https://www.codesofinterest.com/2017/08/bottleneck-features-multi-class-classification-keras.html) that supplements the Keras blog post was also used to create the CNN based on a pre-trained network.
 
-### Model from Scratch
+### Model From Scratch
 I first created and trained a basic CNN. I then tried to optimize my model by modifying model variables one at a time and re-training the model between changes to see if the model's validation accuracy (accuracy classifying validation images) at the end of training increased. I manipulated the following parameters:
-* Activation Functions - Applied to layers to add non-linearity to the network (allow the CNN to classify non-linear data) 
-* Batch Normalization - Used to normalize the output of fully-connected layers (prevent extremely high/low output values) 
-* Batch Size - Number of images used to update CNN weights during each step of a training run/epoch
-* Input Image Dimensions - Dimensions Keras resizes images to before giving them to the CNN 
+* Input Image Dimensions - Dimensions Keras resizes images to before giving them to the CNN
 * Number of Convolution Layers - Layers that extract features from an image, so it can be classified
 * Number of Filters per Convolution - "Feature detectors" used to extract features in a convolution layer
 * Filter Dimensions - Size of the filters in the convolution layers
 * Filter Stride - Number of pixels that a filter moves by when sliding over an image during a convolution
-* Optimizer - Technique used for updating CNN weights
 * Number of Pooling Layers - Layers used to make the CNN invariant to changes to an object's size and location in an image
+* Activation Function - Applied to layers to add non-linearity to the network (allow the CNN to classify non-linear data) 
+* Batch Normalization - Used to normalize the output of fully-connected layers (prevent extremely high/low output values) 
+* Batch Size - Number of images used to update CNN weights during each step of a training run/epoch
+* Optimizer - Technique used for updating CNN weights
 
 From my tests, I concluded that the model figuration shown below is best suited for leaf classification:  
 <p align="center">
