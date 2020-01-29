@@ -21,7 +21,7 @@ As part of a group project, I experimented with a type of [deep learning](https:
 * [Leafsnap Dataset](http://leafsnap.com/dataset/) - Collection of 30,000 images of leaves from 185 tree species in the United States
 * [Middle European Woods Dataset](http://zoi.utia.cas.cz/node/662) - Collection of 10,000 images of leaves from 153 tree/shrub species in central Europe
 * [ResNet50](https://arxiv.org/pdf/1512.03385.pdf) - Neural network included in Keras that has been pre-trained on 1000 classes using 1.2 million images from the [ImageNet](http://image-net.org/index) dataset
-* Big Red II - Supercomputer at Indiana University
+* [Big Red II](https://pti.iu.edu/outreach-training/supercomputing/br2.html) - Supercomputer at Indiana University
 
 ## Image Processing
 Ideally, tree leaves would be classified by species. However, there weren't enough images at the species level in the Leafsnap and Middle European Woods datasets to train a CNN, so the images were instead grouped by tree genus. The 11 genera of which there were the most images were used as classes for the two CNN models.
