@@ -1,0 +1,9 @@
+#!/bin/bash
+#PBS -l walltime=06:00:00
+#PBS -N baseline
+#PBS -q gpu
+#PBS -V
+
+source /N/u/tjnowak/BigRed2/start.sh
+cd /N/u/tjnowak/BigRed2/leaves
+aprun baseline.py
