@@ -57,16 +57,16 @@ Both CNNs were created using a tutorial in a [Keras blog post](https://blog.kera
 
 ### Model From Scratch
 I first created and trained a basic CNN. I then tried to optimize my model by modifying model variables one at a time and re-training the model between changes to see if the model's validation accuracy (accuracy classifying validation images) at the end of training increased. I manipulated the following parameters:
-* Input Image Dimensions - Dimensions Keras resizes images to before giving them to the CNN
-* Number of Convolution Layers - Layers that extract features from an image, so it can be classified
-* Number of Filters per Convolution - "Feature detectors" used to extract features in a convolution layer
-* Filter Dimensions - Size of the filters in the convolution layers
-* Filter Stride - Number of pixels that a filter moves by when sliding over an image during a convolution
-* Number of Pooling Layers - Layers used to make the CNN invariant to changes to an object's size and location in an image
+* [Input Image Dimensions](ModelFromScratch/ConvLayers) - Dimensions Keras resizes images to before giving them to the CNN
+* [Number of Convolution Layers](ModelFromScratch/ConvLayers) - Layers that extract features from an image, so it can be classified
+* [Number of Filters per Convolution](ModelFromScratch/ConvLayers) - "Feature detectors" used to extract features in a convolution layer
+* [Filter Dimensions](ModelFromScratch/FilterSize) - Size of the filters in the convolution layers
+* [Filter Stride](ModelFromScratch/Stride) - Number of pixels that a filter moves by when sliding over an image during a convolution
+* [Number of Pooling Layers](ModelFromScratch/Pooling) - Layers used to make the CNN invariant to changes to an object's size and location in an image
 * [Activation Function](ModelFromScratch/ActivationFunction) - Applied to layers to add non-linearity to the network (allow the CNN to classify non-linear data) 
-* Batch Normalization - Used to normalize the output of fully-connected layers (prevent extremely high/low output values) 
-* Batch Size - Number of images used to update CNN weights during each step of a training run/epoch
-* Optimizer - Technique used for updating CNN weights
+* [Batch Normalization](ModelFromScratch/BatchNormalization) - Used to normalize the output of fully-connected layers (prevent extremely high/low output values) 
+* [Batch Size](ModelFromScratch/BatchSize) - Number of images used to update CNN weights during each step of a training run/epoch
+* [Optimizer](ModelFromScratch/Optimizer) - Technique used for updating CNN weights
 
 From my tests, I concluded that the model figuration shown below is best suited for leaf classification:  
 <p align="center">
