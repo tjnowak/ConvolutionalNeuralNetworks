@@ -57,23 +57,23 @@ Both CNNs were created using a tutorial in a [Keras blog post](https://blog.kera
 
 ### Model From Scratch
 I first created and trained a basic CNN. I then tried to optimize my model by modifying model variables one at a time and re-training the model between changes to see if the model's validation accuracy (accuracy classifying validation images) at the end of training increased. I manipulated the following parameters:
-* [Input Image Dimensions](ModelFromScratch/ConvLayers) - Dimensions Keras resizes images to before giving them to the CNN
-* [Number of Convolution Layers](ModelFromScratch/ConvLayers) - Layers that extract features from an image, so it can be classified
-* [Number of Filters per Convolution](ModelFromScratch/ConvLayers) - "Feature detectors" used to extract features in a convolution layer
-* [Filter Dimensions](ModelFromScratch/FilterSize) - Size of the filters in the convolution layers
-* [Filter Stride](ModelFromScratch/Stride) - Number of pixels that a filter moves by when sliding over an image during a convolution
-* [Number of Pooling Layers](ModelFromScratch/Pooling) - Layers that make the CNN invariant to changes to an object's size and location in an image
-* [Activation Function](ModelFromScratch/ActivationFunction) - Applied to layers to add non-linearity to the network (allow the CNN to classify non-linear data) 
-* [Batch Normalization](ModelFromScratch/BatchNormalization) - Used to normalize the output of fully-connected layers (prevent extremely high/low values) 
-* [Batch Size](ModelFromScratch/BatchSize) - Number of images used to update CNN weights during each step of a training run/epoch
-* [Optimizer](ModelFromScratch/Optimizer) - Technique used for updating CNN weights
+* Input Image Dimensions - Dimensions Keras resizes images to before giving them to the CNN
+* Number of Convolution Layers - Layers that extract features from an image, so it can be classified
+* Number of Filters per Convolution - "Feature detectors" used to extract features in a convolution layer
+* Filter Dimensions - Size of the filters in the convolution layers
+* Filter Stride - Number of pixels that a filter moves by when sliding over an image during a convolution
+* Number of Pooling Layers - Layers that make the CNN invariant to changes to an object's size and location in an image
+* [Activation Function](https://ujjwalkarn.me/2016/08/09/quick-intro-neural-networks/) - Applied to layers to add non-linearity to the network (allows the CNN to classify non-linear data) 
+* [Batch Normalization](https://www.youtube.com/watch?v=dXB-KQYkzNU) - Normalizes layer output (prevents extremely high/low values) to prevent network instability
+* [Batch Size](https://www.youtube.com/watch?v=Ilg3gGewQ5U&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&index=3) - Number of images in a "mini-batch" used to update CNN weights during one step of a training run/epoch
+* [Optimizer](https://ruder.io/optimizing-gradient-descent/) - Technique used for updating CNN weights
 
 From my tests, I concluded that the model figuration shown below is best suited for leaf classification:  
 <p align="center">
   <img src="ModelFromScratch.jpg" alt="Model From Scratch">
 </p>
 
-The final model takes a 302 x 302 pixel image in as input, extracts image features in the convolution layers (yellow), classifies the image using the convolved features in the dense/fully-connected layers (blue), and, for each of the 11 classes, outputs the probability that the leaf in the image belongs to that genus. The first 3 convolution layers in the model use 32 3 x 3 filters that have a horizontal/vertical stride of 1. The last 3 convolution layers use 64 3 x 3 filters with a stride of 1. The feature maps resulting from each convolution layer have Leaky ReLU applied to them and are reduced in size via Max Pooling. The first fully-connected layer has 64 nodes/neurons in it and uses the Leaky ReLU activation function. Dropout is applied to this layer as well to randomly block the output of 50% of the layer's nodes. Finally, the last fully-connected layer has 11 nodes in it (for 11 class probabilities) and uses the Softmax activation function to ensure that all output probabilities are between 0-1 and sum to 1. The model was trained with a batch size of 16 and the Adam optimizer over 50 epochs.
+The final model ([OwnModelFinal.py](OwnModelFinal.py)) takes a 302 x 302 pixel image in as input, extracts image features in the convolution layers (yellow), classifies the image using the convolved features in the dense/fully-connected layers (blue), and, for each of the 11 classes, outputs the probability that the leaf in the image belongs to that genus. The first 3 convolution layers in the model use 32 3 x 3 filters that have a horizontal/vertical stride of 1. The last 3 convolution layers use 64 3 x 3 filters with a stride of 1. The feature maps resulting from each convolution layer have [Leaky ReLU](https://www.tinymind.com/learn/terms/relu) applied to them and are reduced in size via Max Pooling. The first fully-connected layer has 64 nodes/neurons in it and uses the Leaky ReLU activation function. [Dropout](https://www.machinecurve.com/index.php/2019/12/16/what-is-dropout-reduce-overfitting-in-your-neural-networks/) is applied to this layer as well to randomly block the output of 50% of the layer's nodes. Finally, the last fully-connected layer has 11 nodes in it (for 11 class probabilities) and uses the Softmax activation function to ensure that all output probabilities are between 0-1 and sum to 1. The model was trained with a batch size of 16 and the [Adam](https://ruder.io/optimizing-gradient-descent/index.html#adam) optimizer over 50 epochs.
 
 
 
