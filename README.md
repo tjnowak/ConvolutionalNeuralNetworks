@@ -47,11 +47,6 @@ data/                              data/                              data/
 ```
 The images in the ```train``` directory were used to train a model to classify leaves, and the images in the ```validation``` folder were used during each training run/epoch to guage how well the model generalized to images it didn't train on. Once the training of a model was complete, images in the ```final_test``` folder were used to determine how accurately the model classified leaves it hadn't seen before. 
 
-## CNN from Scratch
-I followed a [Keras blog post](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html) to create my own CNN and trained it using a GPU on Big Red II. I then tried to optimize my model by modifying model variables one at a time and re-training the model between changes. I ran my final "optimized" model on the 'final_test' leaf images to determine the model's classification accuracy. 
-
-
-
 ## Implementations
 Both CNNs were created using a tutorial in a [Keras blog post](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html) and were trained using GPUs on the Big Red II supercomputer. A [second article](https://www.codesofinterest.com/2017/08/bottleneck-features-multi-class-classification-keras.html) that supplements the Keras blog post was also used to create the CNN based on a pre-trained network.
 
@@ -65,7 +60,7 @@ I first created and trained a basic CNN. I then tried to optimize my model by mo
 * Number of Pooling Layers - Layers that make the CNN invariant to changes to an object's size and location in an image
 * [Activation Function](https://ujjwalkarn.me/2016/08/09/quick-intro-neural-networks/) - Applied to layers to add non-linearity to the network (allows the CNN to classify non-linear data) 
 * [Batch Normalization](https://www.youtube.com/watch?v=dXB-KQYkzNU) - Normalizes layer output (prevents extremely high/low values) to prevent network instability
-* [Batch Size](https://www.youtube.com/watch?v=Ilg3gGewQ5U&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&index=3) - Number of images in a "mini-batch" used to update CNN weights during one step of a training run/epoch
+* [Batch Size](https://www.youtube.com/watch?v=Ilg3gGewQ5U&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&index=3) - Number of images in a "mini-batch" used to update CNN weights during one step of a training epoch
 * [Optimizer](https://ruder.io/optimizing-gradient-descent/) - Technique used for updating CNN weights
 
 From my tests, I concluded that the model figuration shown below is best suited for leaf classification:  
@@ -73,11 +68,22 @@ From my tests, I concluded that the model figuration shown below is best suited 
   <img src="ModelFromScratch.jpg" alt="Model From Scratch">
 </p>
 
-The final model ([OwnModelFinal.py](OwnModelFinal.py)) takes a 302 x 302 pixel image in as input, extracts image features in the convolution layers (yellow), classifies the image using the convolved features in the dense/fully-connected layers (blue), and, for each of the 11 classes, outputs the probability that the leaf in the image belongs to that genus. The first 3 convolution layers in the model use 32 3 x 3 filters that have a horizontal/vertical stride of 1. The last 3 convolution layers use 64 3 x 3 filters with a stride of 1. The feature maps resulting from each convolution layer have [Leaky ReLU](https://www.tinymind.com/learn/terms/relu) applied to them and are reduced in size via Max Pooling. The first fully-connected layer has 64 nodes/neurons in it and uses the Leaky ReLU activation function. [Dropout](https://www.machinecurve.com/index.php/2019/12/16/what-is-dropout-reduce-overfitting-in-your-neural-networks/) is applied to this layer as well to randomly block the output of 50% of the layer's nodes. Finally, the last fully-connected layer has 11 nodes in it (for 11 class probabilities) and uses the Softmax activation function to ensure that all output probabilities are between 0-1 and sum to 1. The model was trained with a batch size of 16 and the [Adam](https://ruder.io/optimizing-gradient-descent/index.html#adam) optimizer over 50 epochs.
-
-
+The final model ([OwnModelFinal.py](OwnModelFinal.py)) takes a 302 x 302 pixel image in as input, extracts image features in the convolution layers (yellow), classifies the image using the convolved features in the dense/fully-connected layers (blue), and, for each of the 11 classes, outputs the probability that the leaf in the image belongs to that genus. The first 3 convolution layers in the model use 32 3 x 3 filters that have a horizontal/vertical stride of 1. The last 3 convolution layers use 64 3 x 3 filters with a stride of 1. The feature maps resulting from each convolution layer have [Leaky ReLU](https://www.tinymind.com/learn/terms/relu) applied to them and are reduced in size via Max Pooling. The first dense layer has 64 nodes/neurons in it and uses the Leaky ReLU activation function. [Dropout](https://www.machinecurve.com/index.php/2019/12/16/what-is-dropout-reduce-overfitting-in-your-neural-networks/) is applied to this layer as well to randomly block the output of 50% of the layer's nodes. Finally, the last dense layer has 11 nodes in it (for 11 class probabilities) and uses the Softmax activation function to ensure that all output probabilities are between 0-1 and sum to 1. The model was trained with a batch size of 16 and the Adam optimizer over 50 epochs.
 
 ### Transfer Learning Model
+The idea was to build my own leaf classifier on top of the pre-trained, ResNet50 convolutional base. I could have loaded the ResNet50 convolutional base, frozen all layers, and trained a new classifier on top of the base. However, the convolutional base is quite large; running images through it for each training session is expensive. Instead, following the Keras blog post, I loaded the ResNet50 model's convolutional base, separately ran the train and validation leaf images through it, and saved the respective train and validation feature maps outputted from the last ResNet50 convolutional block. These feature maps, also called bottleneck features, were then used as input matrices to train new leaf classification layers.
+
+I started with a generic classifier and trained it on the saved bottleneck features. I then optimized the classifier by modifying variables one at a time, just as I did with the model from scratch, and re-training it between changes. I experimented with the following classifier variables:
+* Number of Dense Layers     * Batch Size
+* Activation Function
+* Batch Normalization
+* Batch Size
+* Optimizer
+* Learning Rate
+* Number of Training Epochs
+
+
 
 ## Results
-
+I ran my final "optimized" model on the 'final_test' leaf images to determine the model's classification accuracy
+I hoped that the features the ResNet50 CNN learned to detect were applicable to leaf identification.
