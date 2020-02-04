@@ -74,7 +74,7 @@ The final model ([OwnModelFinal.py](OwnModelFinal.py)) takes a 302 x 302 pixel i
 The idea was to build my own leaf classifier on top of the pre-trained, ResNet50 convolutional base. I could have loaded the ResNet50 convolutional base, frozen all layers, and trained a new classifier on top of the base. However, the convolutional base is quite large; running images through it for each training session is expensive. Instead, following the Keras blog post, I loaded the ResNet50 model's convolutional base, separately ran the train and validation leaf images through it, and saved the respective train and validation feature maps outputted from the last ResNet50 convolutional block. These feature maps, also called bottleneck features, were then used as input matrices to train new leaf classification layers.
 
 I started with a generic classifier and trained it on the saved bottleneck features. I then optimized the classifier by modifying variables one at a time, just as I did with the model from scratch, and re-training it between changes. I experimented with the following classifier variables:
-* Number of Dense Layers     * Batch Size
+* Number of Dense Layers                            * Batch Size
 * Activation Function
 * Batch Normalization
 * Batch Size
