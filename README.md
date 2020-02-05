@@ -95,7 +95,7 @@ I planned to fine-tune the model to further increase classification accuracy by 
 ## Results
 When the model from scratch was used to predict the classes of the final-test leaf images ([OwnModelFinalEval.py](OwnModelFinalEval.py)), it accurately predicted the genus of a leaf about 77% of the time. This accuracy level was consistent with the model's accuracy classifying validation images at the end of training.
 
-I didn't have time to run the transfer learning model on the final-test images. However, given the model's final validation accuracy during training, 63%, it's safe to assume that the model's accuracy classifying final-test images would be lower than the accuracy of the model from scratch. It appears that the features the ResNet50 CNN learned to detect were not applicable to leaf identification.   
+I didn't have time to run the transfer learning model on the final-test images. However, given the model's final validation accuracy during training, 63%, it's safe to assume that the model's accuracy classifying final-test images would be lower than the accuracy of the model from scratch. It appears that the features the ResNet50 CNN learned to detect aren't very useful for leaf identification.   
 
 The accuracy results for the two models are summarized below:
 <p align="center">
