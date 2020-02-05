@@ -63,27 +63,41 @@ I first created and trained a basic CNN. I then tried to optimize my model by mo
 * [Batch Size](https://www.youtube.com/watch?v=Ilg3gGewQ5U&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&index=3) - Number of images in a "mini-batch" used to update CNN weights during one step of a training epoch
 * [Optimizer](https://ruder.io/optimizing-gradient-descent/) - Technique used for updating CNN weights
 
-From my tests, I concluded that the model figuration shown below is best suited for leaf classification:  
+From my tests, I concluded that the model configuration shown below is best suited for leaf classification:  
 <p align="center">
   <img src="ModelFromScratch.jpg" alt="Model From Scratch">
 </p>
 
-The final model ([OwnModelFinal.py](OwnModelFinal.py)) takes a 302 x 302 pixel image in as input, extracts image features in the convolution layers (yellow), classifies the image using the convolved features in the dense/fully-connected layers (blue), and, for each of the 11 classes, outputs the probability that the leaf in the image belongs to that genus. The first 3 convolution layers in the model use 32 3 x 3 filters that have a horizontal/vertical stride of 1. The last 3 convolution layers use 64 3 x 3 filters with a stride of 1. The feature maps resulting from each convolution layer have [Leaky ReLU](https://www.tinymind.com/learn/terms/relu) applied to them and are reduced in size via Max Pooling. The first dense layer has 64 nodes/neurons in it and uses the Leaky ReLU activation function. [Dropout](https://www.machinecurve.com/index.php/2019/12/16/what-is-dropout-reduce-overfitting-in-your-neural-networks/) is applied to this layer as well to randomly block the output of 50% of the layer's nodes. Finally, the last dense layer has 11 nodes in it (for 11 class probabilities) and uses the Softmax activation function to ensure that all output probabilities are between 0-1 and sum to 1. The model was trained with a batch size of 16 and the Adam optimizer over 50 epochs.
+The final model ([OwnModelFinal.py](OwnModelFinal.py)) takes a 302 x 302 pixel image in as input, extracts image features in the convolution layers (yellow), classifies the image using the convolved features in the dense/fully-connected layers (blue), and, for each of the 11 classes, outputs the probability that the leaf in the image belongs to that genus. The first 3 convolution layers in the model use 32 3 x 3 filters that have a horizontal/vertical stride of 1. The last 3 convolution layers use 64 3 x 3 filters with a stride of 1. The feature maps resulting from each convolution layer have the [Leaky ReLU](https://www.tinymind.com/learn/terms/relu) activation function applied to them and are reduced in size via Max Pooling. The first dense layer has 64 nodes/neurons in it and uses Leaky ReLU. [Dropout](https://www.machinecurve.com/index.php/2019/12/16/what-is-dropout-reduce-overfitting-in-your-neural-networks/) is applied to this layer as well to randomly block the output of 50% of the layer's nodes. Finally, the last dense layer has 11 nodes in it (for 11 class probabilities) and uses the Softmax activation function to ensure that all output probabilities are between 0-1 and sum to 1. Batch normalization was not applied to any of the layers. The model was trained with a batch size of 16 and the Adam optimizer over 50 epochs.
 
 ### Transfer Learning Model
-The idea was to build my own leaf classifier on top of the pre-trained, ResNet50 convolutional base. I could have loaded the ResNet50 convolutional base, frozen all layers, and trained a new classifier on top of the base. However, the convolutional base is quite large; running images through it for each training session is expensive. Instead, following the Keras blog post, I loaded the ResNet50 model's convolutional base, separately ran the train and validation leaf images through it, and saved the respective train and validation feature maps outputted from the last ResNet50 convolutional block. These feature maps, also called bottleneck features, were then used as input matrices to train new leaf classification layers.
+The idea for this model was to build my own leaf classifier on top of the pre-trained, ResNet50 convolutional base. I could have loaded the ResNet50 convolutional layers, frozen them, and trained a new classifier on top. However, the ResNet50 convolutional base is quite large; running images through it for each training session would be expensive. Instead, following the Keras blog post, I loaded the ResNet50 model's convolutional base, separately ran the train and validation leaf images through it, and saved the respective train and validation feature maps outputted from the last ResNet50 convolutional block. These feature maps, also called bottleneck features, were then used as input matrices to train new leaf classification layers.
 
 I started with a generic classifier and trained it on the saved bottleneck features. I then optimized the classifier by modifying variables one at a time, just as I did with the model from scratch, and re-training it between changes. I experimented with the following classifier variables:
-* Number of Dense Layers                                                                                              Batch Size
+* Number of Dense Layers
 * Activation Function
 * Batch Normalization
 * Batch Size
 * Optimizer
-* Learning Rate
-* Number of Training Epochs
+* [Learning Rate](https://www.youtube.com/watch?v=_N5kpSMDf4o&list=PLZbbT5o_s2xq7LwI2y8_QtvuXZedL6tQU&index=7) - Limits the magnitude of CNN weight updates
+* Number of Training Epochs - Number of training runs (how many times the model goes through the train and validation images)
 
+The final transfer learning model, including the ResNet50 convolutional base in addition to the optimal leaf classifier, is as follows:
+<p align="center">
+  <img src="TransferLearningModel.jpg" alt="Transfer Learning Model">
+</p>
+
+The model resulting in the highest training validation accuracy ([ResNet50Final.py](ResNet50Final.py)) takes a 224 x 224 pixel image in as input (dimensions required by ResNet50), extracts image features with [49 convolution layers](http://ethereon.github.io/netscope/#/gist/db945b393d40bfa26006) (the ResNet50 convolutional base), classifies the image with 3 dense layers (the new classifier), and, for each class, outputs the probability that the leaf in the image belongs to it. Following the convolution layers, the first 2 dense layers have 256 nodes in them and use the PReLU activation function. Dropout is applied to the second dense layer to randomly ignore 50% of node outputs from it. Finally, the last dense layer has 11 nodes in it and uses the Softmax activation function to output probabilities corresponding to the 11 possible genera. Batch normalization was not needed on any layers. The model was trained with a batch size of 16, the RMSprop optimizer, and a learning rate of 0.001 over 350 epochs.
+
+I planned to fine-tune the model to further increase validation accuracy by freezing all convolution layers in it except the last convolutional block (last 3 convolution layers) and training it for an additional 50 epochs at a low learning rate ([ResNet50FinalFineTune.py](ResNet50FinalFineTune.py). However, time constraints for the project did not allow this. Since the model's convolutional base was actually trained to identify features of a different image dataset (ImageNet), slowly re-training the last convolutional block and the classifier on the leaf dataset would have, in theory, adjusted the high-level features the model detects to pertain to leaf images.    
 
 
 ## Results
-I ran my final "optimized" model on the 'final_test' leaf images to determine the model's classification accuracy
-I hoped that the features the ResNet50 CNN learned to detect were applicable to leaf identification.
+When the model from scratch was used to predict the classes of the final-test leaf images ([OwnModelFinalEval.py](OwnModelFinalEval.py)), it accurately predicted the genus of a leaf about 77% of the time. This accuracy level was consistent with the model's accuracy classifying validation images at the end of training.
+
+I didn't have time to run the transfer learning model on the final-test images. However, given the model's final validation accuracy during training, 63%, it's safe to assume that the model's accuracy classifying final-test images would be lower than the accuracy of the model from scratch. It appears that the features the ResNet50 CNN learned to detect were not applicable to leaf identification.   
+
+The accuracy results for the two models are summarized below:
+<p align="center">
+  <img src="Results.jpg" alt="Results">
+</p>
