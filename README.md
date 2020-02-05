@@ -65,7 +65,7 @@ I first created and trained a basic CNN. I then tried to optimize my model by mo
 
 From my tests, I concluded that the model configuration shown below is best suited for leaf classification:  
 <p align="center">
-  <img src="ModelFromScratch.jpg" alt="Model From Scratch">
+  <img src="Images\ModelFromScratch.jpg" alt="Model From Scratch">
 </p>
 
 The final model ([OwnModelFinal.py](OwnModelFinal.py)) takes a 302 x 302 pixel image in as input, extracts image features in the convolution layers (yellow), classifies the image using the convolved features in the dense/fully-connected layers (blue), and, for each of the 11 classes, outputs the probability that the leaf in the image belongs to that genus. The first 3 convolution layers in the model use 32 3 x 3 filters that have a horizontal/vertical stride of 1. The last 3 convolution layers use 64 3 x 3 filters with a stride of 1. The feature maps resulting from each convolution layer have the [Leaky ReLU](https://www.tinymind.com/learn/terms/relu) activation function applied to them and are reduced in size via Max Pooling. The first dense layer has 64 nodes/neurons in it and uses Leaky ReLU. [Dropout](https://www.machinecurve.com/index.php/2019/12/16/what-is-dropout-reduce-overfitting-in-your-neural-networks/) is applied to this layer as well to randomly block the output of 50% of the layer's nodes. Finally, the last dense layer has 11 nodes in it (for 11 class probabilities) and uses the Softmax activation function to ensure that all output probabilities are between 0-1 and sum to 1. Batch normalization was not applied to any of the layers. The model was trained with a batch size of 16 and the Adam optimizer over 50 epochs.
@@ -84,7 +84,7 @@ I started with a generic classifier and trained it on the saved bottleneck featu
 
 The final transfer learning model, including the ResNet50 convolutional base in addition to the optimal leaf classifier, is as follows:
 <p align="center">
-  <img src="TransferLearningModel.jpg" alt="Transfer Learning Model">
+  <img src="Images\TransferLearningModel.jpg" alt="Transfer Learning Model">
 </p>
 
 The model resulting in the highest training validation accuracy ([ResNet50Final.py](ResNet50Final.py)) takes a 224 x 224 pixel image in as input (dimensions required by ResNet50), extracts image features with [49 convolution layers](http://ethereon.github.io/netscope/#/gist/db945b393d40bfa26006) (the ResNet50 convolutional base), classifies the image with 3 dense layers (the new classifier), and, for each class, outputs the probability that the leaf in the image belongs to it. Following the convolution layers, the first 2 dense layers have 256 nodes in them and use the PReLU activation function. Dropout is applied to the second dense layer to randomly ignore 50% of node outputs from it. Finally, the last dense layer has 11 nodes in it and uses the Softmax activation function to output probabilities corresponding to the 11 possible genera. Batch normalization was not needed on any layers. The model was trained with a batch size of 16, the RMSprop optimizer, and a learning rate of 0.001 over 350 epochs.
@@ -99,5 +99,5 @@ I didn't have time to run the transfer learning model on the final-test images. 
 
 The accuracy results for the two models are summarized below:
 <p align="center">
-  <img src="Results.jpg" alt="Results">
+  <img src="Images\Results.jpg" alt="Results">
 </p>
